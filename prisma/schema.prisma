@@ -15,13 +15,13 @@ datasource db {
 }
 
 model Book {
-  id          String    @id @default(auto()) @map("_id") @db.ObjectId
+  id          String   @id @default(auto()) @map("_id") @db.ObjectId
   title       String
   publishDate DateTime
   author      String
   summary     String
 
-  comments     Comment[]
+  comments Comment[]
 }
 
 model Comment {
@@ -29,7 +29,7 @@ model Comment {
   content     String
   publishDate DateTime
   author      String
-  book        Book     @relation(fields: [bookId], references: [id])
-  
   bookId      String   @db.ObjectId
+
+  book Book @relation(fields: [bookId], references: [id])
 }
