@@ -20,14 +20,14 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 }
 
 export async function generateStaticParams() {
-  return db.book.findMany({ select: { id: true} });
+  return db.book.findMany({ select: { id: true } });
 }
 
 export const revalidate = 3600;
 // Uppdaterar sidan med ny information satt efter tidsspann
 // När man köra SSR/SSG
 
-export const dynamic = "force-dynamic"
+export const dynamic = "force-dynamic";
 //
 
 export default async function BookPage({ params }: Props) {
@@ -35,20 +35,22 @@ export default async function BookPage({ params }: Props) {
 
   const book = await db.book.findUnique({
     where: { id: id },
-    include: { comments: true }
+    include: { comments: true },
   });
 
   if (book) {
     return (
-      <main className="flex-col w-3xl p-6">
-        <div className="border-2 p-4">
+      <main className="flex-col p-6">
+        <div className="flex-col border-2 p-4">
           <h1 className="mb-2 text-4xl">{book.title}</h1>
           <h2 className="mb-4 text-2xl">{book.author}</h2>
-          <p className="mb-10">{book.summary}</p>
-          <h2 className="mb-4 text-2xl">Comments:</h2>
-          {book.comments.map(c => (
-            <p key={c.id}>{c.content}</p>
-          ))}
+          <p className="flex mb-10">{book.summary}</p>
+          <div className="flex-col">
+            <h2 className="mb-4 text-2xl">Comments:</h2>
+            {book.comments.map((c) => (
+              <p key={c.id}>{c.content}</p>
+            ))}
+          </div>
         </div>
       </main>
     );
